@@ -1,6 +1,11 @@
+// Navbar.jsx
 import React from 'react'
+import { useSelector } from 'react-redux'
+import Cart from './Cart'
 
 export default function Navbar() {
+  const cart = useSelector((state) => state.cart.cart)
+
   return (
     <div className=''>
       <nav className="bg-white border-gray-200 dark:bg-gray-900 px-4 text-2xl text-[#088178]">
@@ -9,9 +14,9 @@ export default function Navbar() {
             <i className="fa-solid fa-book"></i>
               <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
           </a>
-          <div className="" id="navbar-default">
-          <i className="fa-solid fa-cart-shopping"></i>
-            <span className='px-1 py-0 bg-emerald-50 rounded-full text-base relative bottom-3 right-1'>0</span>
+          <div className="flex items-center" id="navbar-default">
+            <Cart/>
+            <span className='px-1 py-0 bg-emerald-50 rounded-full text-base relative bottom-3 right-1'>{cart.length}</span>
           </div>
         </div>
       </nav>
