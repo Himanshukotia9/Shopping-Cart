@@ -58,8 +58,8 @@ export default function Cart({}) {
                                 </div>
                             ))
                             ) : (
-                                <div className="text-center text-3xl font-bold text-gray-900 dark:text-white p-8">
-                                    <h2 >No items in the cart.</h2>
+                                <div className="text-center p-8">
+                                    <h2 className='text-3xl font-bold text-gray-900 dark:text-white'>No items in the cart.</h2>
                                 </div>
                             )
                         }
