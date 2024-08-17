@@ -2,22 +2,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Swal from 'sweetalert2'
 
-const initialState={
-    value:0,
-}
-
-export const counterSlice = createSlice({
-    name: 'counter',
-    initialState,
-    reducers: {
-        increment:(state) => {
-            state.value += 1
-        },
-        decrement:(state) => {
-            state.value -= 1
-        },
-    },
-})
 
 const initialCartState = {
     cart: [],
@@ -34,6 +18,7 @@ export const cartSlice = createSlice({
                 img: action.payload.img,
                 author: action.payload.author,
                 price: action.payload.price,
+                quantity: 1, //initial quantity
             };
             const isPresent = state.cart.some(product => product.id === action.payload.id);
             // The some() method is an array method in JavaScript. It checks if at least one element in the array passes the test implemented by the provided function.
@@ -47,18 +32,30 @@ export const cartSlice = createSlice({
                   });
             }
         },
-          removeProduct: (state, action) => {
+        removeProduct: (state, action) => {
             state.cart = state.cart.filter(product => product.id !== action.payload);
-          },
+        },
+        incrementQty: (state, action) => {
+            const product = state.cart.find(product => product.id === action.payload);
+            if (product) {
+                product.quantity += 1;
+            }
+        },
+        decrementQty: (state, action) => {
+            const product = state.cart.find(product => product.id === action.payload);
+            if (product && product.quantity > 1) {
+                product.quantity -= 1;
+            } else if (product && product.quantity === 1) {
+                state.cart = state.cart.filter(product => product.id !== action.payload); // Remove product if quantity is 0
+            }
+        },
     }
 })
 
 // Action creators for slice
-export const {increment, decrement} = counterSlice.actions;
-export const {addProduct, removeProduct} = cartSlice.actions;
+export const { addProduct, removeProduct, incrementQty, decrementQty } = cartSlice.actions;
 
 // Combine all slices into a single reducer object
 export const rootReducer = {
-    counter: counterSlice.reducer,
     cart: cartSlice.reducer,
   };

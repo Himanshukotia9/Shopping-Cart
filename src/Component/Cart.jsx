@@ -1,12 +1,11 @@
 // cart.jsx
 import React, {useState} from 'react'
 import { useSelector,useDispatch } from 'react-redux';
-import { increment, decrement } from '../App/counter/slice';
+import { incrementQty, decrementQty, removeProduct } from '../App/counter/slice';
 
 export default function Cart({}) {
     const [isOpen, setIsOpen] = useState(false);
 
-    const count = useSelector((state) => state.counter.value)
     const cart = useSelector((state) => state.cart.cart)
     const dispatch = useDispatch()
 
@@ -51,16 +50,16 @@ export default function Cart({}) {
                                         <p className="text-sm text-black font-bold mb-2">MRP : &#8377; {product.price}</p>
                                         <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">incl. of taxes</p>
                                         <div className='flex gap-2'>
-                                            <button onClick={() => dispatch(decrement())} className='text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 '>-</button>
-                                            <button disabled={true} className='py-2.5 px-5 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700'>{count}</button>
-                                            <button onClick={() => dispatch(increment())} className='text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 '>+</button>
+                                            <button onClick={() => dispatch(decrementQty(product.id))} className='text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 '>-</button>
+                                            <button disabled={true} className='py-2.5 px-5 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700'>{product.quantity}</button>
+                                            <button onClick={() => dispatch(incrementQty(product.id))} className='text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 '>+</button>
                                         </div>
                                     </div>
                                 </div>
                             ))
                             ) : (
-                                <div className="text-center text-white">
-                                    No items in the cart.
+                                <div className="text-center text-3xl font-bold text-gray-900 dark:text-white p-8">
+                                    <h2 >No items in the cart.</h2>
                                 </div>
                             )
                         }
