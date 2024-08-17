@@ -1,6 +1,6 @@
 import React from 'react'
 import Card from './Card'
-import list from '../../public/Content/List'
+import list from '../../public/Content/list'
 
 export default function Products() {
   return (
