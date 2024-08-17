@@ -15,7 +15,7 @@ export default function Navbar() {
               <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
           </a>
           <div className="flex items-center" id="navbar-default">
-            <Cart/>
+            <Cart />
             <span className='px-1 py-0 bg-emerald-50 rounded-full text-base relative bottom-3 right-1'>{cart.length}</span>
           </div>
         </div>

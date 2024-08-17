@@ -3,7 +3,7 @@ import React, {useState} from 'react'
 import { useSelector,useDispatch } from 'react-redux';
 import { increment, decrement } from '../App/counter/slice';
 
-export default function Cart() {
+export default function Cart({}) {
     const [isOpen, setIsOpen] = useState(false);
 
     const count = useSelector((state) => state.counter.value)
@@ -22,7 +22,7 @@ export default function Cart() {
       ></i>
       {isOpen && (
         <div id="static-modal" data-modal-backdrop="static" tabIndex="-1" aria-hidden="true" className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-full bg-black bg-opacity-50">
-            <div className="relative p-4 w-full max-w-2xl max-h-full">
+            <div className="relative p-4 w-full max-w-2xl max-h-full overflow-auto">
                 {/* <!-- Modal content --> */}
                 <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
                     {/* <!-- Modal header --> */}
@@ -38,21 +38,32 @@ export default function Cart() {
                         </button>
                     </div>
                     {/* <!-- Modal body --> */}
-                    <div className="flex gap-8 p-4 md:p-5 space-y-4">
-                        <div id='image'>
-                            <img src="https://m.media-amazon.com/images/I/71rmxx8P2qL._AC_UY327_FMwebp_QL65_.jpg" alt="Product image" className='size-44'/>
-                        </div>
-                        <div>
-                            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">108 Panchatantra Stories</h2>
-                            <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">by Maple Press House  | 1 September 2020</p>
-                            <p className="text-sm text-black font-bold mb-2">MRP : &#8377; 98.00</p>
-                            <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">incl. of taxes</p>
-                            <div className='flex gap-2'>
-                                <button onClick={() => dispatch(decrement())} className='text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 '>-</button>
-                                <button disabled={true} className='py-2.5 px-5 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700'>{count}</button>
-                                <button onClick={() => dispatch(increment())} className='text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 '>+</button>
-                            </div>
-                        </div>
+                    <div className='p-4 md:p-5 space-y-4 max-h-96 overflow-y-auto'>
+                        {cart.length > 0 ? (
+                            cart.map((product) => (
+                                <div key={product.id} className="flex gap-8">
+                                    <div id='image'>
+                                        <img src={product.img} alt="Product image" className='size-44'/>
+                                    </div>
+                                    <div>
+                                        <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{product.title}</h2>
+                                        <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">{product.author}</p>
+                                        <p className="text-sm text-black font-bold mb-2">MRP : &#8377; {product.price}</p>
+                                        <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">incl. of taxes</p>
+                                        <div className='flex gap-2'>
+                                            <button onClick={() => dispatch(decrement())} className='text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 '>-</button>
+                                            <button disabled={true} className='py-2.5 px-5 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700'>{count}</button>
+                                            <button onClick={() => dispatch(increment())} className='text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 '>+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))
+                            ) : (
+                                <div className="text-center text-white">
+                                    No items in the cart.
+                                </div>
+                            )
+                        }
                     </div>
                     {/* <!-- Modal footer --> */}
                     <div className="flex justify-around items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
