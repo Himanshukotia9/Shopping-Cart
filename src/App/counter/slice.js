@@ -2,9 +2,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Swal from 'sweetalert2'
 
+// Helper functions for local storage
+const loadCartFromLocalStorage = () => {
+    const savedCart = localStorage.getItem('cart');
+    return savedCart ? JSON.parse(savedCart) : [];
+};
+
+const saveCartToLocalStorage = (cart) => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+};
 
 const initialCartState = {
-    cart: [],
+    cart: loadCartFromLocalStorage(),
   }
 
 export const cartSlice = createSlice({
@@ -24,6 +33,7 @@ export const cartSlice = createSlice({
             // The some() method is an array method in JavaScript. It checks if at least one element in the array passes the test implemented by the provided function.
             if (!isPresent) {
                 state.cart.push(newProduct);
+                saveCartToLocalStorage(state.cart); // Save updated cart
             } else {
                 Swal.fire({
                     icon: "error",
@@ -34,11 +44,13 @@ export const cartSlice = createSlice({
         },
         removeProduct: (state, action) => {
             state.cart = state.cart.filter(product => product.id !== action.payload);
+            saveCartToLocalStorage(state.cart); // Save updated cart
         },
         incrementQty: (state, action) => {
             const product = state.cart.find(product => product.id === action.payload);
             if (product) {
                 product.quantity += 1;
+                saveCartToLocalStorage(state.cart); // Save updated cart
             }
         },
         decrementQty: (state, action) => {
@@ -48,6 +60,7 @@ export const cartSlice = createSlice({
             } else if (product && product.quantity === 1) {
                 state.cart = state.cart.filter(product => product.id !== action.payload); // Remove product if quantity is 0
             }
+            saveCartToLocalStorage(state.cart); // Save updated cart
         },
     }
 })

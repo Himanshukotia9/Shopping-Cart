@@ -2,6 +2,7 @@
 import React, {useState} from 'react'
 import { useSelector,useDispatch } from 'react-redux';
 import { incrementQty, decrementQty, removeProduct } from '../App/counter/slice';
+import { Link } from 'react-router-dom';
 
 export default function Cart({}) {
     const [isOpen, setIsOpen] = useState(false);
@@ -66,7 +67,7 @@ export default function Cart({}) {
                     </div>
                     {/* <!-- Modal footer --> */}
                     <div className="flex justify-around items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                        <button data-modal-hide="static-modal" type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-full text-sm px-5 py-2.5">View Bag ( {cart.length} )</button>
+                        <Link to='/bag'><button data-modal-hide="static-modal" type="button" onClick={toggleModal} className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-full text-sm px-5 py-2.5">View Bag ( {cart.length} )</button></Link>
                         <button data-modal-hide="static-modal" type="button" className="text-white bg-gray-900 hover:bg-gray-500 font-medium rounded-full text-sm px-5 py-2.5">Checkout</button>
                     </div>
                 </div>
